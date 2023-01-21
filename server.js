@@ -21,4 +21,8 @@ const productRouter = require('./routes/products')
 //this endpoint use this router
 app.use('/products', productRouter)
 
+const insertRouter = require('./data/addCsv.js')
+
+app.use('/addcsv', insertRouter)
+
 app.listen(3000, () => console.log ("Server Running"))

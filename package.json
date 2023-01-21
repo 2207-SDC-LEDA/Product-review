@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/2207-SDC-LEDA/Product-review#readme",
   "dependencies": {
+    "csv": "^6.2.5",
+    "csv-parser": "^3.0.0",
     "express": "^4.18.2",
     "mongoose": "^6.8.3"
   },
