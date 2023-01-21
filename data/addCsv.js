@@ -10,9 +10,9 @@ console.log()
 insertRouter.post('/addProduct', async(req, res) => {
   var insertData = [];
   var thousandDataSet = 0
-  fs.createReadStream(productCSV)
+  const readable = fs.createReadStream(productCSV)
   .pipe(csv({ headers: true}))
-  .on('data', (data) => {
+  .on('data', async (data) => {
       var currentDataObj = data
       //modify the data format to match the schema
       var modifyDataObj = {product_id: currentDataObj._0,
@@ -24,43 +24,65 @@ insertRouter.post('/addProduct', async(req, res) => {
       insertData.push(modifyDataObj)
 
       if (insertData.length === 1000) {
-        Products.insertMany(insertData)
+        readable.pause()
+        await Products.insertMany(insertData)
         .then(() => {
           console.log(thousandDataSet, 'thousand data insert successfully')
           insertData = []
           thousandDataSet ++
+        })
+        .then(() => {
+          readable.resume()
         })
         .catch((err) => {
           console.log(err);
         })
       }
   })
-  .on('end', () => {
+  .on('end', async () => {
     //insert the rest of it
-    Products.insertMany(insertData)
+    await Products.insertMany(insertData)
     console.log('products insert complete');
   });
 })
 
 insertRouter.post('/addFeatures', (req, res) => {
-  var data = 0
-  fs.createReadStream(featuresCSV)
+  var insertPromise = [];
+  var hundredDataSet = 0
+  const readable = fs.createReadStream(featuresCSV)
   .pipe(csv({ headers: true}))
   .on('data', async (data) => {
     var productID = data._1
     var pushObj = {"feature": data._2, "value": data._3}
-    await Products.updateOne({'product_id': productID}, {$push: {'features': pushObj}})
-    .then(()=> {
-      console.log('insert' + data)
-      data ++
+    var updateOne = Products.updateOne({'product_id': productID}, {$push: {'features': pushObj}})
+    insertPromise.push(updateOne)
+  if (insertPromise.length === 1000) {
+    readable.pause()
+    await Promise.all(insertPromise)
+    .then (() => {
+      console.log(hundredDataSet, "hundred insert")
+      hundredDataSet ++
+      insertPromise = []
+    })
+    .then(() => {
+      readable.resume()
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
     })
+  }
   })
 
-  .on('end', () => {
-    console.log('features insert complete');
+
+  .on('end', async () => {
+    await Promise.all(inserData)
+    .then (() => {
+      console.log("rest of the insert")
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    console.log('features insert complete')
   });
 })
 
