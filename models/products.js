@@ -1,51 +1,54 @@
 const mongoose = require('mongoose')
 
-const ProductSchema = new mongoose.Schema({
-  product_id: String,
-  name: String,
-  slogan: String,
-  description: String,
-  category: String,
-  default_pric: String,
-  features: [
-    {
-      feature: String,
-      value: String
-    }
-  ],
-  related: []
-})
-
-
-// const StyleSchema = new mongoose.Schema({
-//   product_id: Number,
+// const ProductSchema = new mongoose.Schema({
+//   product_id: {type: String, index: true},
 //   name: String,
-//   sale_price: Number,
-//   original_price: Number,
-//   default_style: Boolean,
-//   photos: [
+//   slogan: String,
+//   description: String,
+//   category: String,
+//   default_pric: String,
+//   features: [
 //     {
-//       thumbnail_url: String,
-//       url: String
+//       feature: String,
+//       value: String
 //     }
 //   ],
-//   skus: {
-//     xs: Number,
-//     s: Number,
-//     M: Number,
-//     L: Number,
-//     XL: Number,
-//     XXL: Number
-//   }
+//   relatedItems: []
 // })
 
-// const CartSchema = new mongoose.Schema({
-//   user_session: Number,
-//   product_id: Number,
-//   active: Number
-// })
+const StyleSchema = new mongoose.Schema({
+  style_id: {type: String, index: true},
+  product_id: String,
+  name: String,
+  sale_price: String,
+  original_price: String,
+  default_style: Boolean,
+  skus: [
+    {size: String,
+    quantity: Number}
+  ],
+  photos: [
+    {
+      thumbnail_url: String,
+      url: String
+    }
+  ]
+})
+
+const RelatedSchema = new mongoose.Schema({
+  product_id: {type: [String], index: true},
+  relatedItems: []
+})
+
+const CartSchema = new mongoose.Schema({
+  user_session: Number,
+  product_id: Number,
+  active: Number
+})
+
+// const Products = mongoose.model('Products', ProductSchema);
+const Styles = mongoose.model('Styles', StyleSchema);
+// const Related = mongoose.model('Related', RelatedSchema);
 
 // collection name
-module.exports = mongoose.model('Products', ProductSchema)
-// module.exports = mongoose.model('Styles', StyleSchema)
-// module.exports = mongoose.model('Cart', CartSchema)
+module.exports = {Styles}
