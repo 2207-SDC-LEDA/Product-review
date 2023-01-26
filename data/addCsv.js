@@ -1,6 +1,6 @@
 const express = require('express');
 const insertRouter = express.Router();
-const {Styles} = require('./../models/products.js')
+const {Products, Styles} = require('./../models/products.js')
 const fs = require('fs')
 const productCSV = '/Users/lenordc/Desktop/SDC/Product-review/data/product.csv'
 const featuresCSV = '/Users/lenordc/Desktop/SDC/Product-review/data/features.csv'
