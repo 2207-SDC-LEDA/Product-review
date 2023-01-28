@@ -44,11 +44,29 @@ router.get('/:product_id', checkID, async (req, res) => {
 router.get('/:product_id/styles', checkID, async (req, res) => {
   var id = req.params.product_id
   const style = await Products.find({product_id: id})
-  const modify = {
-    id: id,
-    result: style[0].styles
+
+  var result = style[0].styles.map((data) => {
+    var skus = {}
+    for (var x = 0; x < data.skus.length; x ++) {
+      skus[x] = data.skus[x]
+    }
+
+    return {
+      style_id: data.style_id,
+      name: data.name,
+      original_price: data.original_price,
+      sale_price: data.sale_price,
+      "default?": data.default_style,
+      photos: data.photos,
+      skus: skus
+    }
+  })
+  const format = {
+    product_id: id,
+    results: result
   }
-  res.send(modify)
+
+  res.send(format)
 })
 
 
