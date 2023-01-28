@@ -43,31 +43,12 @@ router.get('/:product_id', checkID, async (req, res) => {
 //getting product styles
 router.get('/:product_id/styles', checkID, async (req, res) => {
   var id = req.params.product_id
-  const style = await Styles.find({product_id: id})
-
-  const modify = style.map((data) => {
-    const photos = data.photos.map((result) => {
-      return {
-        "thumbnail_url": result.thumbnail_url,
-        "url": result.url
-      }
-    })
-    return {
-      "style_id": data.style_id,
-      "name": data.name,
-      "original_price": data.original_price,
-      "sale_price": data.sale_price,
-      "default?": data.default_style,
-      "photos": photos
-      // missing "skus":
-    }
-  })
-
-  const send = {
-    "product_id": id,
-    "results": modify
+  const style = await Products.find({product_id: id})
+  const modify = {
+    id: id,
+    result: style[0].styles
   }
-  res.send(send)
+  res.send(modify)
 })
 
 

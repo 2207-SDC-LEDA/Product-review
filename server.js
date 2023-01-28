@@ -24,6 +24,6 @@ app.use('/products', productRouter)
 const insertRouter = require('./data/addCsv.js')
 
 // uncomment when insert
-// app.use('/addcsv', insertRouter)
+app.use('/addcsv', insertRouter)
 
-app.listen(3000, () => console.log ("Server Running"))
+app.listen(8000, () => console.log ("Server Running"))
