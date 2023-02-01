@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const {Products, Styles} = require('../models/products')
+const Products = require('../models/products')
+const Cart = require('../models/cart')
 
 //getting list of Products
 router.get('/', async (req, res) => {
@@ -76,6 +77,43 @@ router.get('/:product_id/related', checkID, async (req, res) => {
   const product = await Products.findOne({product_id: req.params.product_id})
   res.send(product.relatedItems)
 })
+
+
+// post request add sku id to cart
+
+router.post('/cart', async (req, res) => {
+  var sku_id = req.body.sku_id;
+  var count = Number(req.body.count)
+  if (!sku_id || !count) {
+    res.status(500).send('No SKU id or count provided.')
+  } else {
+    Cart.findOneAndUpdate({
+      sku_id: sku_id
+    }, {
+      $inc: {
+        count: count
+      }
+    }, { upsert: true })
+    .then((data) => {
+      res.status(201).send("cart updated");
+    })
+  }
+});
+
+// delete request clear the cart
+
+router.delete('/cart', (req, res) => {
+  Cart.deleteMany({})
+  .then((data) => {
+    res.status(200).send("cart was cleared");
+  })
+  .catch((err) => {
+    res.status(500).send(`${err}`);
+  });
+})
+
+
+
 
 // middleware check product exsit
 // add middleware to second arg in the request
