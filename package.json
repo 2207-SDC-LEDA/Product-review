@@ -6,7 +6,8 @@
   "scripts": {
     "server-dev": "nodemon server.js",
     "test": "jest --detectOpenHandles",
-    "coverage": "npm run test -- --coverage"
+    "coverage": "npm run test -- --coverage",
+    "stress-test": "k6 run /Users/lenordc/Desktop/SDC/Product-review/stress_test/GET_script.js"
   },
   "repository": {
     "type": "git",
