@@ -1,0 +1,11 @@
+.env
+node_modules
+coverage
+_test_
+.DS_Store
+*.csv
+data
+stress_test
+newrelic.js
+jest.config.js
+jest-mongodb-config.js

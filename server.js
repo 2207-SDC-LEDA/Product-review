@@ -31,8 +31,8 @@ app.use('/products', productRouter)
 
 
 /* ====== uncomment when insert ====== */
-const insertRouter = require('./data/addCsv.js')
-app.use('/addcsv', insertRouter)
+// const insertRouter = require('./data/addCsv.js')
+// app.use('/addcsv', insertRouter)
 
 
 /* ====== commentout when doing jest test ====== */
