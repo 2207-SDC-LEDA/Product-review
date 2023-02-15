@@ -1,6 +1,7 @@
-FROM node:10.15.3-alpine
-WORKDIR /app
-ADD . /app
+FROM node:16
+WORKDIR /product-review
+COPY package*.json ./
 RUN npm install
+COPY . .
 EXPOSE 8000
-CMD node server.js
+CMD ["node", "server.js"]
