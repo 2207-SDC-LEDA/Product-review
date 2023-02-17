@@ -1,4 +1,6 @@
 require('dotenv').config()
+// require('newrelic');
+
 
 const express = require('express')
 const app = express()
@@ -37,8 +39,8 @@ const productRouter = require('./routes/products')
 app.use('/products', productRouter)
 
 //loaderio
-app.get('/loaderio-a416e9ac1ea0dd9698d6e70193e51a24.txt', (req, res) => {
-  res.status(200).download('./loaderio-a416e9ac1ea0dd9698d6e70193e51a24.txt')
+app.get('/loaderio-564017436e24cd00eee10a1dd344b036.txt', (req, res) => {
+  res.status(200).download('./loaderio-564017436e24cd00eee10a1dd344b036.txt')
 })
 
 

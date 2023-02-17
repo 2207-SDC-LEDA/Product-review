@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 
 //getting product information
 router.get('/:product_id', checkID, async (req, res) => {
-  console.log("get " + req.params.product_id + " detail")
+  // console.log("get " + req.params.product_id + " detail")
   const product = await Products.findOne({product_id: req.params.product_id})
   const modify = {
     "id": product.product_id,
@@ -44,7 +44,7 @@ router.get('/:product_id', checkID, async (req, res) => {
 //getting product styles
 router.get('/:product_id/styles', checkID, async (req, res) => {
   var id = req.params.product_id
-  console.log("get " + req.params.product_id + " style")
+  // console.log("get " + req.params.product_id + " style")
   const style = await Products.find({product_id: id})
 
   var result = style[0].styles.map((data) => {
@@ -75,7 +75,7 @@ router.get('/:product_id/styles', checkID, async (req, res) => {
 // get related ID arr
 
 router.get('/:product_id/related', checkID, async (req, res) => {
-  console.log("get " + req.params.product_id + " related")
+  // console.log("get " + req.params.product_id + " related")
   const product = await Products.findOne({product_id: req.params.product_id})
   res.send(product.relatedItems)
 })
@@ -88,7 +88,7 @@ router.get('/:product_id/related', checkID, async (req, res) => {
 router.post('/cart', async (req, res) => {
   var sku_id = req.body.sku_id;
   var count = Number(req.body.count)
-  console.log("post " + sku_id + " style " + count + " count to cart")
+  // console.log("post " + sku_id + " style " + count + " count to cart")
   if (!sku_id || !count) {
     res.status(500).send('No SKU id or count provided.')
   } else {
