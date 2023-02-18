@@ -1,5 +1,6 @@
 require('dotenv').config()
 // require('newrelic');
+const redis = require("redis");
 
 
 const express = require('express')
@@ -8,7 +9,8 @@ const mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 
 mongoose.set('strictQuery', false)
-mongoose.connect("mongodb://54.146.57.84:27017/productConverFrom-Csv")
+mongoose.connect("mongodb://localhost:27017/productConverFrom-Csv")
+// mongoose.connect("mongodb://54.146.57.84:27017/productConverFrom-Csv")
 .catch((err) => {
   console.log(err)
 })
@@ -39,9 +41,20 @@ const productRouter = require('./routes/products')
 app.use('/products', productRouter)
 
 //loaderio
-app.get('/loaderio-564017436e24cd00eee10a1dd344b036.txt', (req, res) => {
-  res.status(200).download('./loaderio-564017436e24cd00eee10a1dd344b036.txt')
+app.get('/loaderio-787c403b6711569895d50ba5b49d550d.txt', (req, res) => {
+  res.status(200).download('./loaderio-787c403b6711569895d50ba5b49d550d.txt')
 })
+
+//redis
+let redisClient;
+
+(async () => {
+  redisClient = redis.createClient();
+
+  redisClient.on("error", (error) => console.error(`Error : ${error}`));
+
+  await redisClient.connect();
+})();
 
 
 /* ====== uncomment when insert ====== */

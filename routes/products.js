@@ -29,16 +29,31 @@ router.get('/', async (req, res) => {
 //getting product information
 router.get('/:product_id', checkID, async (req, res) => {
   // console.log("get " + req.params.product_id + " detail")
-  const product = await Products.findOne({product_id: req.params.product_id})
-  const modify = {
-    "id": product.product_id,
-    "name": product.name,
-    "slogan": product.slogan,
-    "description": product.description,
-    "category": product.category,
-    "default_price": product.default_pric
+  const idString = req.params.product_id.toString();
+  let isCached = false;
+  try {
+    const catchResponse = await client.get(idString);
+    if (catchResponse) {
+      isCached = ture;
+      results = JSON.parse(catchResponse);
+      res.status(200).json(results);
+    } else {
+    const product = await Products.findOne({product_id: req.params.product_id})
+    const modify = {
+      "id": product.product_id,
+      "name": product.name,
+      "slogan": product.slogan,
+      "description": product.description,
+      "category": product.category,
+      "default_price": product.default_pric
+    }
+    await clinet.set(idString, JSON.stringify(modify), 'EX', 60*60*24*30)
+    res.send(modify)
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({message: 'err with getting detail'})
   }
-  res.send(modify)
 })
 
 //getting product styles
