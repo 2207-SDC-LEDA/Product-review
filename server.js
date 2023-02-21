@@ -1,6 +1,6 @@
 require('dotenv').config()
 // require('newrelic');
-const redis = require("redis");
+// const redis = require("redis");
 
 
 const express = require('express')
@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 
 mongoose.set('strictQuery', false)
-mongoose.connect("mongodb://localhost:27017/productConverFrom-Csv")
+mongoose.connect(process.env.DATABASE_URL)
 // mongoose.connect("mongodb://54.146.57.84:27017/productConverFrom-Csv")
 .catch((err) => {
   console.log(err)
@@ -46,15 +46,15 @@ app.get('/loaderio-787c403b6711569895d50ba5b49d550d.txt', (req, res) => {
 })
 
 //redis
-let redisClient;
+// let redisClient;
 
-(async () => {
-  redisClient = redis.createClient();
+// (async () => {
+//   redisClient = redis.createClient();
 
-  redisClient.on("error", (error) => console.error(`Error : ${error}`));
+//   redisClient.on("error", (error) => console.error(`Error : ${error}`));
 
-  await redisClient.connect();
-})();
+//   await redisClient.connect();
+// })();
 
 
 /* ====== uncomment when insert ====== */

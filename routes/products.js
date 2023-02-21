@@ -2,6 +2,16 @@ const express = require('express')
 const router = express.Router()
 const Products = require('../models/products')
 const Cart = require('../models/cart')
+const redis = require("redis");
+
+
+/* ====== Redis ====== */
+const client = redis.createClient();
+  client
+    .connect()
+    .then((res) => {
+      console.log('connected to redis!');
+    });
 
 //getting list of Products
 router.get('/', async (req, res) => {
@@ -34,7 +44,7 @@ router.get('/:product_id', checkID, async (req, res) => {
   try {
     const catchResponse = await client.get(idString);
     if (catchResponse) {
-      isCached = ture;
+      isCached = true;
       results = JSON.parse(catchResponse);
       res.status(200).json(results);
     } else {
@@ -47,7 +57,7 @@ router.get('/:product_id', checkID, async (req, res) => {
       "category": product.category,
       "default_price": product.default_pric
     }
-    await clinet.set(idString, JSON.stringify(modify), 'EX', 60*60*24*30)
+    await client.set(idString, JSON.stringify(modify), 'EX', 60*60*24*30)
     res.send(modify)
     }
   } catch (err) {
