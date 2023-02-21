@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 
 mongoose.set('strictQuery', false)
-mongoose.connect("mongodb://54.146.57.84:27017/productConverFrom-Csv")
+mongoose.connect(process.env.DATABASE_URL)
 // mongoose.connect("mongodb://54.146.57.84:27017/productConverFrom-Csv")
 .catch((err) => {
   console.log(err)

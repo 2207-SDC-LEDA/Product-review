@@ -27,18 +27,26 @@ router.get('/', async (req, res) => {
 })
 
 //getting product information
-router.get('/:product_id', checkID, async (req, res) => {
+router.get('/:product_id', async (req, res) => {
   // console.log("get " + req.params.product_id + " detail")
-  const product = await Products.findOne({product_id: req.params.product_id})
-  const modify = {
-    "id": product.product_id,
-    "name": product.name,
-    "slogan": product.slogan,
-    "description": product.description,
-    "category": product.category,
-    "default_price": product.default_pric
+  const product = await Products.find({product_id: req.params.product_id})
+  // const product = await Products.aggregate([
+  //   { $match: {product_id: req.params.product_id} },
+  // ])
+  if (product) {
+    const modify = {
+      "id": product.product_id,
+      "name": product.name,
+      "slogan": product.slogan,
+      "description": product.description,
+      "category": product.category,
+      "default_price": product.default_pric
+    }
+    res.send(product)
+  } else {
+    res.send("cannot find the product or invalid input")
   }
-  res.send(modify)
+
 })
 
 //getting product styles

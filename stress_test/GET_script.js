@@ -4,7 +4,7 @@ import { check, sleep, group } from 'k6';
 
 export const options = {
   //user number
-  vus: 1,
+  vus: 100,
   //calling duration
   duration: '10s',
   //testing goal
