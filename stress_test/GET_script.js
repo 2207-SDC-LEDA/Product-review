@@ -4,9 +4,9 @@ import { check, sleep, group } from 'k6';
 
 export const options = {
   //user number
-  vus: 1,
+  vus: 300,
   //calling duration
-  duration: '10s',
+  duration: '60s',
   //testing goal
   thresholds: {
     http_req_duration: ["p(99)<2000"],
@@ -15,7 +15,7 @@ export const options = {
 };
 // calling loop script
 export default function () {
-  let product_id = Math.round(Math.random() * (1000010 - 1) + 1);
+  let product_id = Math.round(Math.random() * (1000010 - 900009) + 900009);
 
   const res = http.get(`http://localhost:8000/products/${product_id}`);
   //check item

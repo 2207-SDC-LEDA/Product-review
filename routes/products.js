@@ -48,7 +48,7 @@ router.get('/:product_id', checkID, async (req, res) => {
       results = JSON.parse(catchResponse);
       res.status(200).json(results);
     } else {
-    const product = await Products.findOne({product_id: req.params.product_id})
+    const product = await Products.find({product_id: req.params.product_id})
     const modify = {
       "id": product.product_id,
       "name": product.name,
