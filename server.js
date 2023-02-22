@@ -9,8 +9,8 @@ const mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 
 mongoose.set('strictQuery', false)
-mongoose.connect(process.env.DATABASE_URL)
-// mongoose.connect("mongodb://54.146.57.84:27017/productConverFrom-Csv")
+// mongoose.connect(process.env.DATABASE_URL)
+mongoose.connect("mongodb://100.26.236.124:27017/productConverFrom-Csv")
 .catch((err) => {
   console.log(err)
 })
@@ -41,8 +41,8 @@ const productRouter = require('./routes/products')
 app.use('/products', productRouter)
 
 //loaderio
-app.get('/loaderio-787c403b6711569895d50ba5b49d550d.txt', (req, res) => {
-  res.status(200).download('./loaderio-787c403b6711569895d50ba5b49d550d.txt')
+app.get('/loaderio-20527f3cfe1fab600067f72a2cc40326.txt', (req, res) => {
+  res.status(200).download('./loaderio-20527f3cfe1fab600067f72a2cc40326.txt')
 })
 
 //redis

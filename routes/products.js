@@ -57,6 +57,7 @@ router.get('/:product_id', checkID, async (req, res) => {
       "category": product.category,
       "default_price": product.default_pric
     }
+    //expireing time 60 mins 60 secs 24 hours 30 days
     await client.set(idString, JSON.stringify(modify), 'EX', 60*60*24*30)
     res.send(modify)
     }
